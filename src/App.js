@@ -1,24 +1,48 @@
-import './App.css';
-import Hero from './components/Hero/Hero';
-import Programs from './components/Programs/Programs';
-import Reasons from './components/Reasons/Reasons';
-import Plans from './components/Plans/Plans';
-import Testimonials from './components/Testimonials/Testimonials';
-import Join from './components/Join/Join';
-import Footer from './components/Footer/Footer';
+// import './App.css';
+import React, { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import Login from "./components/Auth/login";
+import SignUp from "./components/Auth/register";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
+import { auth } from "./components/firebase";
+import Pages from './components/Pages/pages'
+
 
 function App() {
-  return (
-    <div className="App">
-          <Hero/>
-          <Programs/>
-          <Reasons/>
-          <Plans/>
-          <Testimonials/>
-          <Join/>
-          <Footer/>
+  const [user, setUser] = useState();
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+  },[]);
 
-    </div>
+  return (
+    <Router>
+      <div className="App">
+        <div className="auth-wrapper">
+          <div className="auth-inner">
+            <Routes>
+              <Route
+                path="/"
+                element={user ? <Navigate to="/Pages" /> : <Login />}
+              />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<SignUp />} />
+              <Route path="/Pages" element={<Pages />} />
+            </Routes>
+            <ToastContainer />
+          </div>
+        </div>
+      </div>
+    </Router>
   );
 }
 

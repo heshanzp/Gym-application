@@ -5,10 +5,16 @@ import line_image_back from "../../assets/line_image_back.png";
 import Heart from "../../assets/heart.png";
 import Calories from "../../assets/calories.png";
 import { motion } from "framer-motion";
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
 
   const transition = {type: 'spring', duration : 3}
+  const navigate = useNavigate();
+
+  const handleJoinNowClick = () => {
+    navigate('/login');
+  };
   return (
     <div className="hero">
 
@@ -58,7 +64,7 @@ const Hero = () => {
         </div>
       </div>
       <div className="right-h">
-          <button className="btn">Join Now</button>
+          <button onClick={handleJoinNowClick} className="btn">Join Now</button>
 
           <motion.div
           initial={{right: "-1rem"}}
